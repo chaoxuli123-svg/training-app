@@ -3,6 +3,11 @@ import { format } from 'date-fns';
 import { generateStrengthWorkout, STRENGTH_TYPES } from '../utils/trainingPlanGenerator';
 
 function StrengthLog({ strengthLogs, setStrengthLogs }) {
+  // 调试信息
+  console.log('StrengthLog - strengthLogs:', strengthLogs);
+  console.log('StrengthLog - strengthLogs length:', strengthLogs?.length);
+  console.log('StrengthLog - strengthLogs type:', typeof strengthLogs);
+
   const [showAddModal, setShowAddModal] = useState(false);
   const [formData, setFormData] = useState({
     date: format(new Date(), 'yyyy-MM-dd'),
@@ -14,7 +19,14 @@ function StrengthLog({ strengthLogs, setStrengthLogs }) {
 
   // 排序后的力量训练记录
   const sortedLogs = useMemo(() => {
-    return [...strengthLogs].sort((a, b) => new Date(b.date) - new Date(a.date));
+    console.log('Computing sortedLogs, input:', strengthLogs);
+    if (!Array.isArray(strengthLogs)) {
+      console.error('strengthLogs is not an array!', strengthLogs);
+      return [];
+    }
+    const sorted = [...strengthLogs].sort((a, b) => new Date(b.date) - new Date(a.date));
+    console.log('Sorted logs:', sorted);
+    return sorted;
   }, [strengthLogs]);
 
   // 添加力量训练记录
@@ -82,8 +94,23 @@ function StrengthLog({ strengthLogs, setStrengthLogs }) {
     return badges[type] || 'badge-primary';
   };
 
+  console.log('Rendering StrengthLog, sortedLogs:', sortedLogs);
+
   return (
     <div>
+      {/* 调试信息显示 */}
+      <div className="card" style={{ background: '#fff3cd', borderColor: '#ffc107' }}>
+        <div style={{ fontSize: '0.875rem', fontFamily: 'monospace' }}>
+          <strong>🐛 调试信息：</strong><br/>
+          strengthLogs存在: {strengthLogs ? '✅' : '❌'}<br/>
+          strengthLogs类型: {typeof strengthLogs}<br/>
+          strengthLogs是数组: {Array.isArray(strengthLogs) ? '✅' : '❌'}<br/>
+          strengthLogs长度: {strengthLogs?.length || 0}<br/>
+          sortedLogs长度: {sortedLogs?.length || 0}<br/>
+          <small style={{ color: '#666' }}>打开浏览器控制台(F12)查看详细日志</small>
+        </div>
+      </div>
+
       {/* 添加按钮 */}
       <div className="card">
         <button

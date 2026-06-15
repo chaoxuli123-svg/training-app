@@ -25,27 +25,27 @@ git add -A
 git commit -m "Deploy to GitHub Pages - $(date '+%Y-%m-%d %H:%M:%S')"
 
 # 6. 推送到GitHub Pages
-# 注意：你需要先在GitHub创建仓库，然后替换下面的URL
-# git remote add origin https://github.com/你的用户名/training-app.git
-# git push -f origin gh-pages
+echo "🚀 推送到 GitHub Pages..."
+
+# 检查是否已经添加了远程仓库
+if git remote | grep -q origin; then
+  git remote remove origin
+fi
+
+git remote add origin https://github.com/chaoxuli123-svg/training-app.git
+git push -f origin gh-pages
+
+cd ..
 
 echo ""
-echo "✅ 构建完成！"
+echo "✅ 部署完成！"
 echo ""
-echo "📋 接下来请执行以下步骤："
+echo "📋 接下来的步骤："
 echo ""
-echo "1. 在 GitHub 创建新仓库："
-echo "   访问 https://github.com/new"
-echo "   仓库名：training-app"
+echo "1. 在GitHub仓库设置中启用 GitHub Pages："
+echo "   访问: https://github.com/chaoxuli123-svg/training-app/settings/pages"
+echo "   Source → 选择 gh-pages 分支 → 保存"
 echo ""
-echo "2. 在 dist 目录执行以下命令："
-echo "   cd dist"
-echo "   git remote add origin https://github.com/你的用户名/training-app.git"
-echo "   git push -f origin gh-pages"
-echo ""
-echo "3. 在GitHub仓库设置中启用 GitHub Pages："
-echo "   Settings → Pages → Source → 选择 gh-pages 分支"
-echo ""
-echo "4. 访问你的网站："
-echo "   https://你的用户名.github.io/training-app/"
+echo "2. 等待几分钟后访问你的网站："
+echo "   https://chaoxuli123-svg.github.io/training-app/"
 echo ""
